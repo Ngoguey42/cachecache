@@ -37,28 +37,56 @@ let clear t =
   done
 
 let append t v =
+  Fmt.epr "> append, first:%d, last:%d, free:%d, cap:%d, size:%d\n%!" t.first
+    t.last t.free t.cap t.size;
   let removed =
     if t.free <> -1 then (
+      Fmt.epr " append a\n%!";
       let index = t.free in
+      Fmt.epr " append b\n%!";
       t.free <- t.next.(index);
-      if t.free <> -1 then t.prev.(t.free) <- -1;
+      Fmt.epr " append c\n%!";
+      if t.free <> -1 then (
+        Fmt.epr " append d\n%!";
+        t.prev.(t.free) <- -1);
+      Fmt.epr " append e\n%!";
       t.next.(index) <- t.first;
-      if t.size <> 0 then t.prev.(t.first) <- index else t.last <- index;
+      Fmt.epr " append f\n%!";
+      if t.size <> 0 then (
+        Fmt.epr " append g\n%!";
+        t.prev.(t.first) <- index)
+      else (
+        Fmt.epr " append h\n%!";
+        t.last <- index);
+      Fmt.epr " append i\n%!";
       t.first <- index;
+      Fmt.epr " append j\n%!";
       t.contents.(index) <- v;
+      Fmt.epr " append k\n%!";
       t.size <- t.size + 1;
+      Fmt.epr " append l\n%!";
       None)
-    else
+    else (
+      Fmt.epr " append 0\n%!";
       let removed = Some t.contents.(t.last) in
+      Fmt.epr " append 1\n%!";
       let old_last = t.last in
+      Fmt.epr " append 2\n%!";
       t.last <- t.prev.(old_last);
+      Fmt.epr " append 3\n%!";
       t.contents.(old_last) <- v;
+      Fmt.epr " append 4\n%!";
       t.next.(t.prev.(old_last)) <- -1;
+      Fmt.epr " append 5\n%!";
       t.prev.(old_last) <- -1;
+      Fmt.epr " append 6\n%!";
       t.next.(old_last) <- t.first;
+      Fmt.epr " append 7\n%!";
       t.prev.(t.first) <- old_last;
+      Fmt.epr " append 8\n%!";
       t.first <- old_last;
-      removed
+      Fmt.epr " append 9\n%!";
+      removed)
   in
   (t.first, removed)
 

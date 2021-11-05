@@ -37,7 +37,7 @@ module Make (K : Hashtbl.HashedType) = struct
     with Not_found -> None
 
   let replace t k v =
-    Fmt.epr "> replace\n%!";
+    Fmt.epr "> replace, cap:%d, dictlen:%d\n%!" t.cap (H.length t.tbl);
     let res =
     try
       Fmt.epr "  replace a\n%!";
